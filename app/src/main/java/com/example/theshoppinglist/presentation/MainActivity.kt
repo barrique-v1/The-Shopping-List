@@ -1,4 +1,4 @@
-package com.example.theshoppinglist
+package com.example.theshoppinglist.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,12 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.theshoppinglist.navigation.BottomNavigationBar
-import com.example.theshoppinglist.navigation.Routes
-import com.example.theshoppinglist.screens.ListenScreen
-import com.example.theshoppinglist.screens.ProfilScreen
-import com.example.theshoppinglist.screens.RezepteScreen
-import com.example.theshoppinglist.ui.theme.TheShoppingListTheme
+import com.example.theshoppinglist.presentation.features.profile.ProfileScreen
+import com.example.theshoppinglist.presentation.features.recipes.RecipeScreen
+import com.example.theshoppinglist.presentation.features.shoppinglists.ShoppingListsScreen
+import com.example.theshoppinglist.presentation.navigation.BottomNavigationBar
+import com.example.theshoppinglist.presentation.navigation.Routes
+import com.example.theshoppinglist.presentation.theme.TheShoppingListTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +47,13 @@ fun MainScreen() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Routes.LISTEN) {
-                ListenScreen()
+                ShoppingListsScreen()
             }
             composable(Routes.REZEPTE) {
-                RezepteScreen()
+                RecipeScreen()
             }
             composable(Routes.PROFIL) {
-                ProfilScreen()
+                ProfileScreen()
             }
         }
     }

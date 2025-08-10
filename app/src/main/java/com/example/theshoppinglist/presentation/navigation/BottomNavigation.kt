@@ -1,4 +1,4 @@
-package com.example.theshoppinglist.navigation
+package com.example.theshoppinglist.presentation.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.PlaylistAddCheck
