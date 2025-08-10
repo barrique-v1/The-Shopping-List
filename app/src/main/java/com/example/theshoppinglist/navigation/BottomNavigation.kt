@@ -1,10 +1,9 @@
 package com.example.theshoppinglist.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.automirrored.filled.PlaylistAddCheck
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -30,17 +29,17 @@ val bottomNavItems = listOf(
     BottomNavItem(
         route = Routes.LISTEN,
         title = "Listen",
-        icon = Icons.AutoMirrored.Filled.List
+        icon = Icons.AutoMirrored.Filled.PlaylistAddCheck
     ),
     BottomNavItem(
         route = Routes.REZEPTE,
         title = "Rezepte",
-        icon = Icons.Default.Favorite
+        icon = Icons.AutoMirrored.Filled.MenuBook
     ),
     BottomNavItem(
         route = Routes.PROFIL,
         title = "Profil",
-        icon = Icons.Default.Person
+        icon = Icons.Filled.Person
     )
 )
 
