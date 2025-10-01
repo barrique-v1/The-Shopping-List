@@ -18,7 +18,9 @@ import com.example.theshoppinglist.presentation.features.shoppinglists.ShoppingL
 import com.example.theshoppinglist.presentation.navigation.BottomNavigationBar
 import com.example.theshoppinglist.presentation.navigation.Routes
 import com.example.theshoppinglist.presentation.theme.TheShoppingListTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
