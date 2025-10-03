@@ -3,8 +3,8 @@
 ## Phase 1: Foundation & Data Layer ⏳
 
 ### 1.1 Database Setup
-- [ ] Add Room, KSP dependencies to gradle
-- [ ] Create domain models (ShoppingList, ListItem, Recipe, Ingredient)
+- [x] Add Room, KSP dependencies to gradle
+- [x] Create domain models (ShoppingList, ListItem, Recipe, Ingredient)
 - [ ] Create Room entities with proper relationships
 - [ ] Create DAOs (ShoppingListDao, RecipeDao)
 - [ ] Set up AppDatabase with migrations strategy
