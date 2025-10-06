@@ -32,22 +32,32 @@
 
 ## Phase 2: Shopping Lists Feature 📝
 
-### 2.1 Use Cases
-- [ ] GetShoppingListsUseCase
-- [ ] CreateShoppingListUseCase
-- [ ] DeleteShoppingListUseCase
-- [ ] GetListItemsUseCase
-- [ ] AddListItemUseCase
-- [ ] UpdateListItemUseCase
-- [ ] DeleteListItemUseCase
-- [ ] ToggleListItemCheckedUseCase
+### 2.1 Use Cases ✅
+- [x] GetShoppingListsUseCase - fetch all shopping lists (Flow)
+- [x] CreateShoppingListUseCase - create new list with validation
+- [x] DeleteShoppingListUseCase - delete list by ID
+- [x] GetShoppingListByIdUseCase - fetch single list for detail screen
+- [x] GetListItemsUseCase - fetch items for a shopping list (Flow)
+- [x] AddListItemUseCase - add item with validation (name, quantity)
+- [x] UpdateListItemUseCase - update existing item with validation
+- [x] DeleteListItemUseCase - delete item by ID
+- [x] ToggleListItemCheckedUseCase - toggle checked state
 
-### 2.2 ViewModels & State
-- [ ] Create ShoppingListsViewModel
-- [ ] Define ListsUiState data class
-- [ ] Create ListDetailViewModel
-- [ ] Define ListDetailUiState data class
-- [ ] Implement state management with StateFlow
+### 2.2 ViewModels & State ✅
+- [x] Define ListsUiState data class - holds list of shopping lists
+- [x] Create ShoppingListsViewModel with StateFlow and events Channel
+  - loadShoppingLists() - observes all lists reactively
+  - createShoppingList(name) - creates new list with validation
+  - deleteShoppingList(id) - deletes list
+  - onListClicked(listId) - navigation to detail screen
+- [x] Define ListDetailUiState data class - holds shopping list and items
+- [x] Create ListDetailViewModel with combined Flow state
+  - loadListDetails() - combines list + items flows
+  - addItem(...) - adds item with validation
+  - updateItem(...) - updates item with validation
+  - deleteItem(id) - deletes item
+  - toggleItemChecked(id, isChecked) - toggle without snackbar
+- [x] Implement state management with StateFlow for UI state and Channel for events
 
 ### 2.3 UI Implementation
 - [ ] ListsScreen - display all shopping lists as cards
@@ -161,34 +171,50 @@
 ---
 
 ## Current Status
-**Phase:** 1.3 - Common Utilities ✅ **COMPLETED**
+**Phase:** 2.2 - ViewModels & State ✅ **COMPLETED**
 
-**Phase 1 Complete! Foundation & Data Layer Finished! 🎉**
+**Phase 2.2 Complete! ViewModels & State Management Finished! 🎉**
 
 **What's Done:**
-- ✅ **Phase 1.1**: Complete database setup with Room, entities, DAOs, and mappers
-- ✅ **Phase 1.2**: Repository layer with aggregate pattern
-  - Result<T> wrapper class (Success/Error/Loading) for domain operations
-  - ShoppingListRepository (6 shopping list + 8 list item operations)
-  - RecipeRepository (6 recipe + 7 ingredient operations)
-  - Repository implementations with Flow-based reactive streams
-  - Comprehensive error handling with try-catch and Flow.catch
-  - Hilt RepositoryModule with @Binds annotations
-- ✅ **Phase 1.3**: Common presentation utilities
-  - UiState<T> sealed class (Idle/Loading/Success/Error) for ViewModels
-  - UiEvent sealed class (ShowSnackbar/ShowToast/Navigate) for one-time events
-  - Helper extension functions for UiState
-- ✅ Project builds successfully with all tests passing
+- ✅ **Phase 1**: Foundation & Data Layer (Database, Repositories, Common Utilities)
+- ✅ **Phase 2.1**: Shopping Lists Use Cases (9 use cases)
+- ✅ **Phase 2.2**: ViewModels & State - **2 ViewModels + 2 State classes implemented**
 
-**Architecture Decisions:**
-- **Aggregate Pattern**: Parent entities manage children through the same repository
-- **Separation of Concerns**: Result<T> for domain, UiState<T> for presentation
-- **One-time Events**: UiEvent for navigation/snackbars (Channel/SharedFlow), UiState for persistent state (StateFlow)
-- **Flow-based reactive streams** for automatic UI updates
+  **ShoppingListsViewModel:**
+  - File: `presentation/features/shoppinglists/ShoppingListsViewModel.kt:25`
+  - State: StateFlow<UiState<ListsUiState>> - holds lists
+  - Events: SharedFlow<UiEvent> - one-time navigation/snackbars
+  - Operations: loadShoppingLists(), createShoppingList(), deleteShoppingList(), onListClicked()
+  - Auto-loads lists on init, observes Flow for reactive updates
 
-**Next Phase:** 2.1 - Shopping Lists Use Cases 🚀
+  **ListDetailViewModel:**
+  - File: `presentation/features/shoppinglists/ListDetailViewModel.kt:37`
+  - State: Combines 2 Flows (list + items) into single UiState<ListDetailUiState>
+  - SavedStateHandle for listId navigation argument
+  - Operations: addItem(), updateItem(), deleteItem(), toggleItemChecked()
+  - Smart UX: No snackbar for frequent checkbox toggles
+
+**Architecture Patterns:**
+- **StateFlow for State**: Persistent UI state that survives config changes
+- **Channel for Events**: One-time events (navigation, snackbars) consumed only once
+- **Flow Combination**: combine() operator merges list + items into unified state
+- **Result → UiState Mapping**: Transforms domain Result<T> to presentation UiState<T>
+- **Hilt Integration**: @HiltViewModel with constructor-injected use cases
+
+**Key Implementation Details:**
+- ListsUiState: Simple data class with `lists: List<ShoppingList>`
+- ListDetailUiState: Combines `shoppingList: ShoppingList?` + `items: List<ListItem>`
+- ViewModels handle all user actions and emit appropriate states/events
+- Error messages from Result.Error are displayed via UiEvent.ShowSnackbar
+- All operations use viewModelScope for automatic cancellation
+
+**Next Phase:** 2.3 - UI Implementation 🚀
 
 **Next Immediate Steps:**
-1. Implement use cases for shopping list operations (GetShoppingListsUseCase, CreateShoppingListUseCase, etc.)
-2. Each use case handles one specific business operation
-3. Use cases will consume repositories and return Flow<Result<T>> or Result<T>
+1. Update ShoppingListsScreen to observe ViewModel state
+2. Create ListDetailScreen composable
+3. Add FAB for creating new lists
+4. Implement list item cards with checkboxes
+5. Add dialogs/bottom sheets for item creation/editing
+6. Implement swipe-to-delete functionality
+7. Wire up navigation between screens
