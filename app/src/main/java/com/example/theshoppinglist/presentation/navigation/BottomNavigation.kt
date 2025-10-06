@@ -1,9 +1,12 @@
 package com.example.theshoppinglist.presentation.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.PlaylistAddCheck
 import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.automirrored.filled.PlaylistAddCheck
+import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.material.icons.automirrored.outlined.PlaylistAddCheck
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -21,7 +24,8 @@ object Routes {
 data class BottomNavItem(
     val route: String,
     val title: String,
-    val icon: ImageVector
+    val icon: ImageVector,
+    val selectedIcon: ImageVector = icon
 )
 
 // List of navigation items
@@ -29,17 +33,20 @@ val bottomNavItems = listOf(
     BottomNavItem(
         route = Routes.LISTEN,
         title = "Listen",
-        icon = Icons.AutoMirrored.Filled.PlaylistAddCheck
+        icon = Icons.AutoMirrored.Outlined.PlaylistAddCheck,
+        selectedIcon = Icons.AutoMirrored.Filled.PlaylistAddCheck
     ),
     BottomNavItem(
         route = Routes.REZEPTE,
         title = "Rezepte",
-        icon = Icons.AutoMirrored.Filled.MenuBook
+        icon = Icons.AutoMirrored.Outlined.MenuBook,
+        selectedIcon = Icons.AutoMirrored.Filled.MenuBook
     ),
     BottomNavItem(
         route = Routes.PROFIL,
         title = "Profil",
-        icon = Icons.Filled.Person
+        icon = Icons.Outlined.Person,
+        selectedIcon = Icons.Filled.Person
     )
 )
 
@@ -69,7 +76,7 @@ fun BottomNavigationBar(
                 },
                 icon = {
                     Icon(
-                        imageVector = item.icon,
+                        imageVector = if (currentRoute == item.route) item.selectedIcon else item.icon,
                         contentDescription = item.title
                     )
                 },
