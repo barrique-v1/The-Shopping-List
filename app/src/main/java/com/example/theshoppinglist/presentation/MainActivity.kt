@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.theshoppinglist.presentation.features.profile.ProfileScreen
 import com.example.theshoppinglist.presentation.features.recipes.RecipeScreen
+import com.example.theshoppinglist.presentation.features.shoppinglists.ListDetailScreen
 import com.example.theshoppinglist.presentation.features.shoppinglists.ShoppingListsScreen
 import com.example.theshoppinglist.presentation.navigation.BottomNavigationBar
 import com.example.theshoppinglist.presentation.navigation.Routes
@@ -49,7 +52,23 @@ fun MainScreen() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Routes.LISTEN) {
-                ShoppingListsScreen()
+                ShoppingListsScreen(
+                    onNavigateToDetail = { listId ->
+                        navController.navigate("list_detail/$listId")
+                    }
+                )
+            }
+            composable(
+                route = "list_detail/{listId}",
+                arguments = listOf(
+                    navArgument("listId") { type = NavType.LongType }
+                )
+            ) {
+                ListDetailScreen(
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    }
+                )
             }
             composable(Routes.REZEPTE) {
                 RecipeScreen()

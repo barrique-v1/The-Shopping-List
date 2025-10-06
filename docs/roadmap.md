@@ -59,15 +59,18 @@
   - toggleItemChecked(id, isChecked) - toggle without snackbar
 - [x] Implement state management with StateFlow for UI state and Channel for events
 
-### 2.3 UI Implementation
-- [ ] ListsScreen - display all shopping lists as cards
-- [ ] Add FAB for creating new lists
-- [ ] ListDetailScreen - display list items
-- [ ] Create ListItemCard component
-- [ ] Add item creation dialog/bottom sheet
-- [ ] Implement checkbox toggle functionality
-- [ ] Add swipe-to-delete for items
-- [ ] Navigation between lists and detail screens
+### 2.3 UI Implementation ✅
+- [x] ShoppingListsScreen - displays shopping lists as cards with LazyColumn
+- [x] Add FAB for creating new lists with CreateListDialog
+- [x] ShoppingListCard component with click handling
+- [x] CreateListDialog with validation
+- [x] ListDetailScreen - displays list items with TopAppBar
+- [x] ListItemCard component with category, name, quantity, unit, checkbox
+- [x] AddItemBottomSheet with dropdowns for unit & category
+- [x] Checkbox toggle functionality (no snackbar for frequent action)
+- [x] Swipe-to-delete with delete icon background
+- [x] Navigation wired: listen → list_detail/{listId} with back button
+- [x] Added hilt-navigation-compose dependency for hiltViewModel()
 
 ## Phase 3: Recipes Feature 🍳
 
@@ -171,50 +174,51 @@
 ---
 
 ## Current Status
-**Phase:** 2.2 - ViewModels & State ✅ **COMPLETED**
+**Phase:** 2.3 - UI Implementation ✅ **COMPLETED**
 
-**Phase 2.2 Complete! ViewModels & State Management Finished! 🎉**
+**Phase 2 Complete! Shopping Lists Feature Fully Functional! 🎉**
 
 **What's Done:**
 - ✅ **Phase 1**: Foundation & Data Layer (Database, Repositories, Common Utilities)
 - ✅ **Phase 2.1**: Shopping Lists Use Cases (9 use cases)
-- ✅ **Phase 2.2**: ViewModels & State - **2 ViewModels + 2 State classes implemented**
+- ✅ **Phase 2.2**: ViewModels & State (2 ViewModels + 2 State classes)
+- ✅ **Phase 2.3**: UI Implementation - **Complete shopping list feature!**
 
-  **ShoppingListsViewModel:**
-  - File: `presentation/features/shoppinglists/ShoppingListsViewModel.kt:25`
-  - State: StateFlow<UiState<ListsUiState>> - holds lists
-  - Events: SharedFlow<UiEvent> - one-time navigation/snackbars
-  - Operations: loadShoppingLists(), createShoppingList(), deleteShoppingList(), onListClicked()
-  - Auto-loads lists on init, observes Flow for reactive updates
+  **UI Components Created (7 files):**
+  1. `ShoppingListCard.kt` - Card showing list name & creation date
+  2. `ListItemCard.kt` - Card showing category, name, quantity, unit, checkbox
+  3. `CreateListDialog.kt` - AlertDialog for creating lists with validation
+  4. `AddItemBottomSheet.kt` - ModalBottomSheet with dropdowns for all item fields
+  5. `ShoppingListsScreen.kt` - Full screen with state handling, FAB, empty states
+  6. `ListDetailScreen.kt` - Detail screen with swipe-to-delete, TopAppBar, FAB
+  7. `MainActivity.kt` - Navigation setup with list_detail/{listId} route
 
-  **ListDetailViewModel:**
-  - File: `presentation/features/shoppinglists/ListDetailViewModel.kt:37`
-  - State: Combines 2 Flows (list + items) into single UiState<ListDetailUiState>
-  - SavedStateHandle for listId navigation argument
-  - Operations: addItem(), updateItem(), deleteItem(), toggleItemChecked()
-  - Smart UX: No snackbar for frequent checkbox toggles
+  **Key Features Implemented:**
+  - ✅ Reactive UI with StateFlow - lists/items update automatically
+  - ✅ Loading, success, error, and empty states for all screens
+  - ✅ FAB + dialogs/bottom sheets for creating lists & items
+  - ✅ Swipe-to-delete with visual feedback (delete icon)
+  - ✅ Checkbox toggle for marking items (no snackbar spam)
+  - ✅ Navigation with type-safe arguments (NavType.LongType)
+  - ✅ Event handling via Channel (snackbars, navigation)
+  - ✅ German UI text throughout
 
-**Architecture Patterns:**
-- **StateFlow for State**: Persistent UI state that survives config changes
-- **Channel for Events**: One-time events (navigation, snackbars) consumed only once
-- **Flow Combination**: combine() operator merges list + items into unified state
-- **Result → UiState Mapping**: Transforms domain Result<T> to presentation UiState<T>
-- **Hilt Integration**: @HiltViewModel with constructor-injected use cases
+  **Dependency Added:**
+  - `androidx.hilt:hilt-navigation-compose:1.2.0` for hiltViewModel()
 
-**Key Implementation Details:**
-- ListsUiState: Simple data class with `lists: List<ShoppingList>`
-- ListDetailUiState: Combines `shoppingList: ShoppingList?` + `items: List<ListItem>`
-- ViewModels handle all user actions and emit appropriate states/events
-- Error messages from Result.Error are displayed via UiEvent.ShowSnackbar
-- All operations use viewModelScope for automatic cancellation
+**Architecture Highlights:**
+- **Type Alias Used**: `Unit as MeasurementUnit` to avoid kotlin.Unit conflict
+- **Enum Display**: Used `getDisplayName()` functions for Category & Unit
+- **Swipe Gestures**: SwipeToDismissBox with EndToStart direction only
+- **Bottom Sheet**: Material3 ModalBottomSheet with form validation
+- **Navigation**: Proper argument extraction via SavedStateHandle
 
-**Next Phase:** 2.3 - UI Implementation 🚀
+**Build Status:** ✅ Builds successfully (some deprecation warnings - non-blocking)
+
+**Next Phase:** 3.1 - Recipes Use Cases 🚀
 
 **Next Immediate Steps:**
-1. Update ShoppingListsScreen to observe ViewModel state
-2. Create ListDetailScreen composable
-3. Add FAB for creating new lists
-4. Implement list item cards with checkboxes
-5. Add dialogs/bottom sheets for item creation/editing
-6. Implement swipe-to-delete functionality
-7. Wire up navigation between screens
+1. Implement use cases for recipes (GetRecipesUseCase, CreateRecipeUseCase, etc.)
+2. Add use case for adding recipe ingredients to shopping list
+3. Create RecipesViewModel and RecipeDetailViewModel
+4. Build recipes UI screens similar to shopping lists
