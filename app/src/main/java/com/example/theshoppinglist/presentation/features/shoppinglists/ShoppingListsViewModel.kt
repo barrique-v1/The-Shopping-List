@@ -8,6 +8,7 @@ import com.example.theshoppinglist.domain.usecase.shoppinglist.DeleteShoppingLis
 import com.example.theshoppinglist.domain.usecase.shoppinglist.GetShoppingListsUseCase
 import com.example.theshoppinglist.presentation.common.UiEvent
 import com.example.theshoppinglist.presentation.common.UiState
+import com.example.theshoppinglist.presentation.features.shoppinglists.listdetail.ListsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

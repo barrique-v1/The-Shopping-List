@@ -1,4 +1,4 @@
-package com.example.theshoppinglist.presentation.features.shoppinglists
+package com.example.theshoppinglist.presentation.features.shoppinglists.listdetail
 
 import com.example.theshoppinglist.domain.model.ShoppingList
 

@@ -16,7 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.theshoppinglist.presentation.features.profile.ProfileScreen
 import com.example.theshoppinglist.presentation.features.recipes.RecipeScreen
-import com.example.theshoppinglist.presentation.features.shoppinglists.ListDetailScreen
+import com.example.theshoppinglist.presentation.features.shoppinglists.listdetail.ListDetailScreen
 import com.example.theshoppinglist.presentation.features.shoppinglists.ShoppingListsScreen
 import com.example.theshoppinglist.presentation.navigation.BottomNavigationBar
 import com.example.theshoppinglist.presentation.navigation.Routes

@@ -1,4 +1,4 @@
-package com.example.theshoppinglist.presentation.features.shoppinglists
+package com.example.theshoppinglist.presentation.features.shoppinglists.listdetail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
