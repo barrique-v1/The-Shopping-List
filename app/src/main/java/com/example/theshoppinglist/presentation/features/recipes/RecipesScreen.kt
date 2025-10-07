@@ -6,17 +6,36 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.theshoppinglist.presentation.navigation.FabConfig
 
 @Composable
-fun RecipeScreen() {
+fun RecipeScreen(
+    onFabConfigChange: (FabConfig?) -> Unit = {}
+) {
+    // Configure FAB for this screen
+    LaunchedEffect(Unit) {
+        onFabConfigChange(
+            FabConfig(
+                icon = Icons.Default.Add,
+                contentDescription = "Neues Rezept erstellen",
+                onClick = {
+                    // TODO: Implement recipe creation
+                }
+            )
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

@@ -17,7 +17,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,6 +43,7 @@ import com.example.theshoppinglist.presentation.common.UiEvent
 import com.example.theshoppinglist.presentation.common.UiState
 import com.example.theshoppinglist.presentation.features.shoppinglists.components.AddItemBottomSheet
 import com.example.theshoppinglist.presentation.features.shoppinglists.components.ListItemCard
+import com.example.theshoppinglist.presentation.navigation.FabConfig
 import kotlinx.coroutines.launch
 
 /**
@@ -54,13 +54,29 @@ import kotlinx.coroutines.launch
 @Composable
 fun ListDetailScreen(
     viewModel: ListDetailViewModel = hiltViewModel(),
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
+    onFabConfigChange: (FabConfig?) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     val bottomSheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     var showAddItemSheet by remember { mutableStateOf(false) }
+
+    // Configure FAB for this screen
+    LaunchedEffect(Unit) {
+        onFabConfigChange(
+            FabConfig(
+                icon = Icons.Default.Add,
+                contentDescription = "Artikel hinzufügen",
+                onClick = {
+                    scope.launch {
+                        showAddItemSheet = true
+                    }
+                }
+            )
+        )
+    }
 
     // Handle one-time events
     LaunchedEffect(Unit) {
@@ -100,21 +116,7 @@ fun ListDetailScreen(
                 }
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    scope.launch {
-                        showAddItemSheet = true
-                    }
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Artikel hinzufügen"
-                )
-            }
-        }
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { paddingValues ->
         Box(
             modifier = Modifier

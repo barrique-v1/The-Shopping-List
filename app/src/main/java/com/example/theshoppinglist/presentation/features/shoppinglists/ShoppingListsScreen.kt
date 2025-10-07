@@ -11,10 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -34,6 +31,7 @@ import com.example.theshoppinglist.presentation.common.UiEvent
 import com.example.theshoppinglist.presentation.common.UiState
 import com.example.theshoppinglist.presentation.features.shoppinglists.components.CreateListDialog
 import com.example.theshoppinglist.presentation.features.shoppinglists.components.ShoppingListCard
+import com.example.theshoppinglist.presentation.navigation.FabConfig
 
 /**
  * Screen displaying all shopping lists.
@@ -42,11 +40,23 @@ import com.example.theshoppinglist.presentation.features.shoppinglists.component
 @Composable
 fun ShoppingListsScreen(
     viewModel: ShoppingListsViewModel = hiltViewModel(),
-    onNavigateToDetail: (Long) -> Unit = {}
+    onNavigateToDetail: (Long) -> Unit = {},
+    onFabConfigChange: (FabConfig?) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     var showCreateDialog by remember { mutableStateOf(false) }
+
+    // Configure FAB for this screen
+    LaunchedEffect(Unit) {
+        onFabConfigChange(
+            FabConfig(
+                icon = Icons.Default.Add,
+                contentDescription = "Neue Liste erstellen",
+                onClick = { showCreateDialog = true }
+            )
+        )
+    }
 
     // Handle one-time events
     LaunchedEffect(Unit) {
@@ -65,24 +75,17 @@ fun ShoppingListsScreen(
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { showCreateDialog = true }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Neue Liste erstellen"
-                )
-            }
-        }
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        // Snackbar host positioned at top
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
+
+        // Main content
+        Box(modifier = Modifier.fillMaxSize()) {
             when (val state = uiState) {
                 is UiState.Idle -> {
                     // Initial state - could show placeholder
