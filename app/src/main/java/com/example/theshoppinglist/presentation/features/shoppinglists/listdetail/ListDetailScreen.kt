@@ -64,7 +64,7 @@ fun ListDetailScreen(
     var showAddItemSheet by remember { mutableStateOf(false) }
 
     // Configure FAB for this screen
-    LaunchedEffect(Unit) {
+    LaunchedEffect(key1 = Unit) {
         onFabConfigChange(
             FabConfig(
                 icon = Icons.Default.Add,
@@ -79,7 +79,7 @@ fun ListDetailScreen(
     }
 
     // Handle one-time events
-    LaunchedEffect(Unit) {
+    LaunchedEffect(key1 = viewModel) {
         viewModel.events.collect { event ->
             when (event) {
                 is UiEvent.ShowSnackbar -> {
